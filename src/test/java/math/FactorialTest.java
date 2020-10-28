@@ -57,8 +57,12 @@ public class FactorialTest {
     }
 
     private void bigFactorials(Function<Integer, BigInteger> factorial) {
-        int n = 20;
-        String factorialNumber = "2432902008176640000";
+        int n = 10;
+        String factorialNumber = "3628800";
+        assertEquals(n + "! should be " + factorialNumber + ".",
+                new BigInteger(factorialNumber), factorial.apply(n));
+        n = 20;
+        factorialNumber = "2432902008176640000";
         assertEquals(n + "! should be " + factorialNumber + ".",
                 new BigInteger(factorialNumber), factorial.apply(n));
         n = 30;
@@ -87,6 +91,10 @@ public class FactorialTest {
                 new BigInteger(factorialNumber), factorial.apply(n));
         n = 90;
         factorialNumber = "1485715964481761497309522733620825737885569961284688766942216863704985393094065876545992131370884059645617234469978112000000000000000000000";
+        assertEquals(n + "! should be " + factorialNumber + ".",
+                new BigInteger(factorialNumber), factorial.apply(n));
+        n = 100;
+        factorialNumber = "93326215443944152681699238856266700490715968264381621468592963895217599993229915608941463976156518286253697920827223758251185210916864000000000000000000000000";
         assertEquals(n + "! should be " + factorialNumber + ".",
                 new BigInteger(factorialNumber), factorial.apply(n));
     }
