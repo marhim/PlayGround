@@ -8,7 +8,7 @@ import java.util.function.Function;
 public class ApproximationOfPi {
 
     // The absolute Error of the Approximation have to be less than this double to be printed
-    private static final double ACCURACY = 0.000001;
+    private static final double ACCURACY = 0.0000001;
 
     public static void main(String[] args) {
         System.out.println("Pi = " + Math.PI);
@@ -21,7 +21,7 @@ public class ApproximationOfPi {
 
     private static void printApproximation(Function<Integer, Double> function) {
         int n = 6; // Starts with Hexagon
-        int nMax = 30; // Max iteration steps
+        int nMax = 40; // Max iteration steps
         for (int i = 0; i < nMax; i++) {
             // Only positive n-gons for the approximation
             if (n > 0) {
