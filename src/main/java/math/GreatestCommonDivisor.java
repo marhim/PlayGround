@@ -2,9 +2,6 @@ package math;
 
 import java.math.BigInteger;
 
-/**
- * Class for finding the greatest common divisor manually without using BigInteger.gcd().
- */
 public class GreatestCommonDivisor {
 
     /**
