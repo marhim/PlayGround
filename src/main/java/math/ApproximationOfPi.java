@@ -1,45 +1,28 @@
 package math;
 
-import java.util.function.Function;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 
-/**
- * Approximation of Pi with the calculation of Archimedes.
- */
 public class ApproximationOfPi {
 
-    // The absolute Error of the Approximation have to be less than this double to be printed
-    private static final double ACCURACY = 0.0000001;
+  /**
+   * Calculating Pi with the Leibniz formula which states: 1 - (1/3) + (1/5) - (1/7) + (1/9) - ... =
+   * Pi / 4.
+   *
+   * @return Calculated Pi
+   */
+  public static BigDecimal calcPi() {
+    // Number of steps for the formula and therefore the precision
+    final BigDecimal n = new BigDecimal("10000000");
 
-    public static void main(String[] args) {
-        System.out.println("Pi = " + Math.PI);
-        System.out.println("Accuracy: " + ACCURACY + " (Abs.Err. must be less than this to be printed)");
-        System.out.println("\nApprox of (1):");
-        printApproximation(ApproximationOfPi::approxFirst);
-        System.out.println("\nApprox of (2):");
-        printApproximation(ApproximationOfPi::approxSecond);
+    BigDecimal pi = BigDecimal.ZERO;
+    BigDecimal s = BigDecimal.ONE;
+    BigDecimal two = BigDecimal.ONE.add(BigDecimal.ONE);
+    BigDecimal negOne = BigDecimal.ONE.subtract(two);
+    for (BigDecimal i = BigDecimal.ONE; i.compareTo(n) < 0; i = i.add(two)) {
+      pi = pi.add(s.divide(i, 1000, RoundingMode.CEILING));
+      s = s.multiply(negOne);
     }
-
-    private static void printApproximation(Function<Integer, Double> function) {
-        int n = 6; // Starts with Hexagon
-        int nMax = 40; // Max iteration steps
-        for (int i = 0; i < nMax; i++) {
-            // Only positive n-gons for the approximation
-            if (n > 0) {
-                Double approx = function.apply(n);
-                if (Math.abs(Math.PI - approx) < ACCURACY) { // absolute error must be less than given accuracy
-                    System.out.println(i + ": " + n + "-Gon\tApprox.: " + approx + "\t\tAbs.Err: " + Math.abs(Math.PI - approx));
-                }
-                n *= 2; // Doubles the n-gon
-            }
-        }
-    }
-
-    private static Double approxFirst(Integer n) {
-        return n * Math.sqrt((1 - Math.sqrt(1 - Math.pow(Math.sin(Math.toRadians(360d / n)), 2))) / 2);
-    }
-
-    private static Double approxSecond(Integer n) {
-        double v = Math.sin(Math.toRadians(360d / n));
-        return n * (v / Math.sqrt(2 * (1 + Math.sqrt(1 - Math.pow(v, 2)))));
-    }
+    return pi.multiply(new BigDecimal("4"));
+  }
 }
