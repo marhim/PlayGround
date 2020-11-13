@@ -27,4 +27,26 @@ public class GreatestCommonDivisor {
         }
         return gcd;
     }
+
+    /**
+     * Finding the greatest common divisor using Euclid's Algorithm which is more efficent than plain brute force.
+     * Euclid's Algorithm has a complexity of O(Log min(x, y)).
+     *
+     * @param x First number
+     * @param y Second number
+     * @return Greatest common divisor of x and y
+     */
+    public static BigInteger findGCDByEuclid(BigInteger x, BigInteger y) {
+        if (x.compareTo(BigInteger.ZERO) < 0) {
+            x = x.abs();
+        }
+        if (y.compareTo(BigInteger.ZERO) < 0) {
+            y = y.abs();
+        }
+        if (y.compareTo(BigInteger.ZERO) == 0) {
+            return x;
+        }
+        return findGCDByEuclid(y, x.mod(y));
+    }
+
 }

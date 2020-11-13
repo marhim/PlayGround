@@ -14,6 +14,11 @@ public class GreatestCommonDivisorTest {
         simpleGCDs(GreatestCommonDivisor::findGCD);
     }
 
+    @Test
+    public void testSimpleGCDsByEuclid() {
+        simpleGCDs(GreatestCommonDivisor::findGCDByEuclid);
+    }
+
     private void simpleGCDs(BiFunction<BigInteger, BigInteger, BigInteger> gcd) {
         assertEquals("gcd of 8 and 12 should be 4.", BigInteger.valueOf(4),
                 gcd.apply(BigInteger.valueOf(8), BigInteger.valueOf(12)));
