@@ -6,12 +6,12 @@ import java.math.RoundingMode;
 public class ApproximationOfPi {
 
   /**
-   * Calculating Pi with the Leibniz formula which states: 1 - (1/3) + (1/5) - (1/7) + (1/9) - ... =
-   * Pi / 4.
+   * Calculating Pi with the Leibniz formula which states:
+   * 1 - (1/3) + (1/5) - (1/7) + (1/9) - ... = Pi / 4
    *
    * @return Calculated Pi
    */
-  public static BigDecimal calcPi() {
+  public static BigDecimal calcPiWithLeibniz() {
     // Number of steps for the formula and therefore the precision
     final BigDecimal n = new BigDecimal("10000000");
 
