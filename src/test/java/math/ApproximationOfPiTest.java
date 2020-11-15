@@ -4,6 +4,7 @@ import static org.junit.Assert.assertTrue;
 
 import java.math.BigDecimal;
 import java.math.MathContext;
+import java.util.function.Supplier;
 import org.junit.Test;
 
 public class ApproximationOfPiTest {
@@ -32,18 +33,27 @@ public class ApproximationOfPiTest {
           + "81857780532171226806613001927876611195909216420198"; // 950 to 999
   private static final MathContext PRECISION_2048_BITS = new MathContext(2048);
   private static final BigDecimal PI = new BigDecimal(THOUSAND_PI_DIGITS, PRECISION_2048_BITS);
+  private static final BigDecimal TOLERANCE = new BigDecimal("1E-100");
 
   @Test
   public void testCalcPiWithLeibniz() {
+    calcPi(ApproximationOfPi::calcPiByLeibniz);
+  }
+
+  @Test
+  public void testCalcPiWithArchimedes() {
+    calcPi(ApproximationOfPi::calcPiByArchimedes);
+  }
+
+  private void calcPi(Supplier<BigDecimal> pi) {
     System.out.println("Calculation of Pi");
     System.out.println("Expecting:\t" + PI.toEngineeringString());
-    BigDecimal calculated = ApproximationOfPi.calcPiWithLeibniz();
+    BigDecimal calculated = pi.get();
     System.out.println("Calculated:\t" + calculated.toEngineeringString());
-    BigDecimal tolerance = new BigDecimal("1E-100");
     BigDecimal delta = PI.subtract(calculated).abs();
     System.out.println("Difference: " + delta.toEngineeringString());
     assertTrue(
-        "Difference should ne within " + tolerance.toEngineeringString(),
-        delta.compareTo(tolerance) < 1);
+        "Difference should ne within " + TOLERANCE.toEngineeringString(),
+        delta.compareTo(TOLERANCE) < 1);
   }
 }
