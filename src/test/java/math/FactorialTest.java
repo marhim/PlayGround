@@ -8,9 +8,29 @@ import org.junit.Test;
 
 public class FactorialTest {
 
+  private static void checkFactorial(
+      Function<Integer, BigInteger> factorial, int n, long correctResult) {
+    checkFactorialBigInteger(factorial, n, BigInteger.valueOf(correctResult));
+  }
+
+  private static void checkFactorial(
+      Function<Integer, BigInteger> factorial, int n, String correctResult) {
+    checkFactorialBigInteger(factorial, n, new BigInteger(correctResult));
+  }
+
+  private static void checkFactorialBigInteger(
+      Function<Integer, BigInteger> factorial, int n, BigInteger correctResult) {
+    assertEquals(n + "! should be " + correctResult + ".", correctResult, factorial.apply(n));
+  }
+
   @Test(expected = IllegalArgumentException.class)
   public void testNegativeValues() {
     negativeValues(Factorial::factorial);
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void testNegativeValuesStream() {
+    negativeValues(Factorial::factorialStream);
   }
 
   @Test(expected = IllegalArgumentException.class)
@@ -28,21 +48,26 @@ public class FactorialTest {
   }
 
   @Test
+  public void testSimpleFactorialsStream() {
+    simpleFactorials(Factorial::factorialStream);
+  }
+
+  @Test
   public void testSimpleFactorialsRec() {
     simpleFactorials(Factorial::factorialRec);
   }
 
   private void simpleFactorials(Function<Integer, BigInteger> factorial) {
-    assertEquals("0! should be 1.", BigInteger.ONE, factorial.apply(0));
-    assertEquals("1! should be 1.", BigInteger.ONE, factorial.apply(1));
-    assertEquals("2! should be 2.", BigInteger.valueOf(2), factorial.apply(2));
-    assertEquals("3! should be 6.", BigInteger.valueOf(6), factorial.apply(3));
-    assertEquals("4! should be 24.", BigInteger.valueOf(24), factorial.apply(4));
-    assertEquals("5! should be 120.", BigInteger.valueOf(120), factorial.apply(5));
-    assertEquals("6! should be 720.", BigInteger.valueOf(720), factorial.apply(6));
-    assertEquals("7! should be 5,040.", BigInteger.valueOf(5040), factorial.apply(7));
-    assertEquals("8! should be 40,320.", BigInteger.valueOf(40320), factorial.apply(8));
-    assertEquals("9! should be 362,880.", BigInteger.valueOf(362880), factorial.apply(9));
+    checkFactorial(factorial, 0, 1);
+    checkFactorial(factorial, 1, 1);
+    checkFactorial(factorial, 2, 2);
+    checkFactorial(factorial, 3, 6);
+    checkFactorial(factorial, 4, 24);
+    checkFactorial(factorial, 5, 120);
+    checkFactorial(factorial, 6, 720);
+    checkFactorial(factorial, 7, 5040);
+    checkFactorial(factorial, 8, 40320);
+    checkFactorial(factorial, 9, 362880);
   }
 
   @Test
@@ -51,75 +76,45 @@ public class FactorialTest {
   }
 
   @Test
+  public void testBigFactorialsStream() {
+    bigFactorials(Factorial::factorialStream);
+  }
+
+  @Test
   public void testBigFactorialsRec() {
     bigFactorials(Factorial::factorialRec);
   }
 
   private void bigFactorials(Function<Integer, BigInteger> factorial) {
-    int n = 10;
-    String factorialNumber = "3628800";
-    assertEquals(
-        n + "! should be " + factorialNumber + ".",
-        new BigInteger(factorialNumber),
-        factorial.apply(n));
-    n = 20;
-    factorialNumber = "2432902008176640000";
-    assertEquals(
-        n + "! should be " + factorialNumber + ".",
-        new BigInteger(factorialNumber),
-        factorial.apply(n));
-    n = 30;
-    factorialNumber = "265252859812191058636308480000000";
-    assertEquals(
-        n + "! should be " + factorialNumber + ".",
-        new BigInteger(factorialNumber),
-        factorial.apply(n));
-    n = 40;
-    factorialNumber = "815915283247897734345611269596115894272000000000";
-    assertEquals(
-        n + "! should be " + factorialNumber + ".",
-        new BigInteger(factorialNumber),
-        factorial.apply(n));
-    n = 50;
-    factorialNumber = "30414093201713378043612608166064768844377641568960512000000000000";
-    assertEquals(
-        n + "! should be " + factorialNumber + ".",
-        new BigInteger(factorialNumber),
-        factorial.apply(n));
-    n = 60;
-    factorialNumber =
-        "8320987112741390144276341183223364380754172606361245952449277696409600000000000000";
-    assertEquals(
-        n + "! should be " + factorialNumber + ".",
-        new BigInteger(factorialNumber),
-        factorial.apply(n));
-    n = 70;
-    factorialNumber =
-        "11978571669969891796072783721689098736458938142546425857555362864628009582789845319680000000000000000";
-    assertEquals(
-        n + "! should be " + factorialNumber + ".",
-        new BigInteger(factorialNumber),
-        factorial.apply(n));
-    n = 80;
-    factorialNumber =
-        "71569457046263802294811533723186532165584657342365752577109445058227039255480148842668944867280814080000000000000000000";
-    assertEquals(
-        n + "! should be " + factorialNumber + ".",
-        new BigInteger(factorialNumber),
-        factorial.apply(n));
-    n = 90;
-    factorialNumber =
-        "1485715964481761497309522733620825737885569961284688766942216863704985393094065876545992131370884059645617234469978112000000000000000000000";
-    assertEquals(
-        n + "! should be " + factorialNumber + ".",
-        new BigInteger(factorialNumber),
-        factorial.apply(n));
-    n = 100;
-    factorialNumber =
-        "93326215443944152681699238856266700490715968264381621468592963895217599993229915608941463976156518286253697920827223758251185210916864000000000000000000000000";
-    assertEquals(
-        n + "! should be " + factorialNumber + ".",
-        new BigInteger(factorialNumber),
-        factorial.apply(n));
+    checkFactorial(factorial, 10, "3628800");
+    checkFactorial(factorial, 20, "2432902008176640000");
+    checkFactorial(factorial, 30, "265252859812191058636308480000000");
+    checkFactorial(factorial, 40, "815915283247897734345611269596115894272000000000");
+    checkFactorial(
+        factorial, 50, "30414093201713378043612608166064768844377641568960512000000000000");
+    checkFactorial(
+        factorial,
+        60,
+        "8320987112741390144276341183223364380754172606361245952449277696409600000000000000");
+    checkFactorial(
+        factorial,
+        70,
+        "11978571669969891796072783721689098736458938142546425857555362864628009582789845319680000000000000000");
+    checkFactorial(
+        factorial,
+        80,
+        "71569457046263802294811533723186532165584657342365752577109445058227039255480148842668944867280814080000000000000000000");
+    checkFactorial(
+        factorial,
+        90,
+        "1485715964481761497309522733620825737885569961284688766942216863704985393094065876545992131370884059645617234469978112000000000000000000000");
+    checkFactorial(
+        factorial,
+        100,
+        "93326215443944152681699238856266700490715968264381621468592963895217599993229915608941463976156518286253697920827223758251185210916864000000000000000000000000");
+    checkFactorial(
+        factorial,
+        1000,
+        "402387260077093773543702433923003985719374864210714632543799910429938512398629020592044208486969404800479988610197196058631666872994808558901323829669944590997424504087073759918823627727188732519779505950995276120874975462497043601418278094646496291056393887437886487337119181045825783647849977012476632889835955735432513185323958463075557409114262417474349347553428646576611667797396668820291207379143853719588249808126867838374559731746136085379534524221586593201928090878297308431392844403281231558611036976801357304216168747609675871348312025478589320767169132448426236131412508780208000261683151027341827977704784635868170164365024153691398281264810213092761244896359928705114964975419909342221566832572080821333186116811553615836546984046708975602900950537616475847728421889679646244945160765353408198901385442487984959953319101723355556602139450399736280750137837615307127761926849034352625200015888535147331611702103968175921510907788019393178114194545257223865541461062892187960223838971476088506276862967146674697562911234082439208160153780889893964518263243671616762179168909779911903754031274622289988005195444414282012187361745992642956581746628302955570299024324153181617210465832036786906117260158783520751516284225540265170483304226143974286933061690897968482590125458327168226458066526769958652682272807075781391858178889652208164348344825993266043367660176999612831860788386150279465955131156552036093988180612138558600301435694527224206344631797460594682573103790084024432438465657245014402821885252470935190620929023136493273497565513958720559654228749774011413346962715422845862377387538230483865688976461927383814900140767310446640259899490222221765904339901886018566526485061799702356193897017860040811889729918311021171229845901641921068884387121855646124960798722908519296819372388642614839657382291123125024186649353143970137428531926649875337218940694281434118520158014123344828015051399694290153483077644569099073152433278288269864602789864321139083506217095002597389863554277196742822248757586765752344220207573630569498825087968928162753848863396909959826280956121450994871701244516461260379029309120889086942028510640182154399457156805941872748998094254742173582401063677404595741785160829230135358081840096996372524230560855903700624271243416909004153690105933983835777939410970027753472000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000");
   }
 }
