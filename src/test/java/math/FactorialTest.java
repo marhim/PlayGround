@@ -10,15 +10,15 @@ public class FactorialTest {
 
   private static void checkFactorial(
       Function<Integer, BigInteger> factorial, int n, long correctResult) {
-    checkFactorialBigInteger(factorial, n, BigInteger.valueOf(correctResult));
+    checkFactorial(factorial, n, BigInteger.valueOf(correctResult));
   }
 
   private static void checkFactorial(
       Function<Integer, BigInteger> factorial, int n, String correctResult) {
-    checkFactorialBigInteger(factorial, n, new BigInteger(correctResult));
+    checkFactorial(factorial, n, new BigInteger(correctResult));
   }
 
-  private static void checkFactorialBigInteger(
+  private static void checkFactorial(
       Function<Integer, BigInteger> factorial, int n, BigInteger correctResult) {
     assertEquals(n + "! should be " + correctResult + ".", correctResult, factorial.apply(n));
   }
